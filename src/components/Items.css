@@ -1,0 +1,29 @@
+.todos {
+  max-height: 300px;
+  width: 300px;
+  border: solid 1px white;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.todos::-webkit-scrollbar {
+  width: none;
+  background: transparent;
+  display: none;
+}
+
+.list-item {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: green
+}
