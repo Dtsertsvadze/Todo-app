@@ -1,15 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from "./Input";
 import Items from "./Items";
 import "./Todos.css";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
+  const isMounted = useRef(true);
 
   useEffect(() => {
-    console.log(todos)
-  }, [todos])
-  
+    if (isMounted.current) {
+      const localStorageObject = localStorage.getItem("myTodos");
+      console.log(localStorageObject);
+      if (localStorageObject && isMounted) {
+        setTodos(JSON.parse(localStorageObject));
+      }
+      isMounted.current = false;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (todos) {
+      localStorage.setItem("myTodos", JSON.stringify(todos));
+    }
+  }, [todos]);
 
   const handleValueChange = (newTodo) => {
     setTodos([
@@ -27,15 +40,14 @@ const Todos = () => {
       if (item.id === itemId) {
         return {
           ...item,
-          isCompleted: !item.isCompleted, 
+          isCompleted: !item.isCompleted,
         };
       }
       return item;
     });
-  
+
     setTodos(updatedTodos);
   };
-  
 
   const handleDelete = (updatedTodos) => {
     setTodos(updatedTodos);
